@@ -1,0 +1,48 @@
+.list {
+  height: 100%;
+  width: 100%;
+}
+
+.main__toggle_all {
+  width: 40px;
+  height: 30px;
+  position: absolute;
+  top: -62px;
+  left: 22px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  outline: none;
+  display: none;
+}
+
+.main__toggle_all_view{
+  display: block;
+}
+
+.main__toggle_all::after {
+  position: absolute;
+  background-image: url(http://www.clipartbest.com/cliparts/di8/pRL/di8pRL8XT.png);
+  background-size: cover;
+  content: "";
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+}
+
+.main__toggle_all:checked::after {
+  opacity: 1;
+}
+
+.main {
+  margin: auto;
+  max-width: 600px;
+  width: 100%;
+  min-width: 400px;
+  border-left: 2px solid #f1f1f1;
+  border-right: 2px solid #f1f1f1;
+  background-image: url(../../images/8bit-vremya-sutki-noch-more-2339.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  background-attachment: fixed;
+}
