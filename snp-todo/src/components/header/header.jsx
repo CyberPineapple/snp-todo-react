@@ -1,19 +1,16 @@
 import React from "react";
-import header from "./header.module.css";
+import header from "./Header.module.css";
 
 export default class Header extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      textOfTheNewItem: ''
-    };
-  }
+  state = {
+    textOfTheNewItem: ""
+  };
 
   render() {
     let { list } = this.props;
     let styleInputText = header.header__input;
-    if (list.length === 0) {
-      styleInputText = styleInputText + " " + header.header__input_primal;
+    if (!list.length) {
+      styleInputText = header.header__input_primal;
     }
 
     return (
@@ -91,29 +88,34 @@ export default class Header extends React.Component {
           autoFocus
           placeholder="What needs to be done?"
           value={this.state.textOfTheNewItem}
-          onChange={(e) => this.handleOnChange(e.target)}
-          onKeyPress={(e) => this.handleKeyPress(e)}
+          onChange={e => this.handleOnChange(e.target)}
+          onKeyPress={e => this.handleKeyPress(e)}
         />
       </>
     );
   }
 
-  handleOnChange = (e) =>{
+  handleOnChange = e => {
     this.setState({
       textOfTheNewItem: e.value
-    })
-  }
+    });
+  };
 
-  handleKeyPress = (e) => {
-    if (e.key === 'Enter' && this.state.textOfTheNewItem[0] !== ' ' && this.state.textOfTheNewItem[1] !== ' ' && this.state.textOfTheNewItem !== ''){
+  handleKeyPress = e => {
+    if (
+      e.key === "Enter" &&
+      this.state.textOfTheNewItem[0] !== " " &&
+      this.state.textOfTheNewItem[1] !== " " &&
+      this.state.textOfTheNewItem !== ""
+    ) {
       this.props.addNewItem({
         text: this.state.textOfTheNewItem,
         id: Date.now(),
         completed: false
       });
       this.setState({
-        textOfTheNewItem: ''
+        textOfTheNewItem: ""
       });
     }
-  }
+  };
 }

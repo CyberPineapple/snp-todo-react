@@ -1,16 +1,17 @@
 import React from "react";
-import styles from "./main.module.css";
-import Item from "../item/item";
+import styles from "./Main.module.css";
+import Item from "../Item/Item";
 
 export default class Main extends React.Component {
   render() {
-    let list = "";
-    let listCompleted = this.props.list.filter(value => value.completed);
+    let list;
+    const listCompleted = this.props.list.filter(value => value.completed);
     let styleButtonToggleAll = styles.main__toggle_all;
 
+
     if (this.props.list.length > 0) {
-      styleButtonToggleAll += " " + styles.main__toggle_all_view;
-      if (this.props.showItems === "all") {
+      styleButtonToggleAll = styles.main__toggle_all_view;
+      if (this.props.typeOfItems === "all") {
         list = this.props.list.map(value => (
           <Item
             data={value}
@@ -20,7 +21,7 @@ export default class Main extends React.Component {
             editItem={this.props.editItem}
           />
         ));
-      } else if (this.props.showItems === "completed") {
+      } else if (this.props.typeOfItems === "completed") {
         list = this.props.list.map(value => {
           if (value.completed) {
             return (
@@ -32,6 +33,8 @@ export default class Main extends React.Component {
                 editItem={this.props.editItem}
               />
             );
+          } else {
+            return null;
           }
         });
       } else {
@@ -46,6 +49,8 @@ export default class Main extends React.Component {
                 editItem={this.props.editItem}
               />
             );
+          } else {
+            return null;
           }
         });
       }

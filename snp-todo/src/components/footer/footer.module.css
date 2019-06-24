@@ -1,4 +1,8 @@
 .footer {
+  visibility: hidden;
+}
+
+.footer_view{
   max-width: 600px;
   width: 100%;
   min-width: 400px;
@@ -17,10 +21,6 @@
   font-size: 20px;
   padding-left: 10px;
   padding-right: 10px;
-  visibility: hidden;
-}
-
-.footer_view{
   visibility: visible;
 }
 
@@ -51,18 +51,18 @@ input[type="radio"]:checked + .footer__button {
 }
 
 .footer__delete_completed {
-  padding: 10px;
   visibility: hidden;
-  opacity: 0.5;
-  transition: opacity .1s;
 }
 
 .footer__delete_completed_view {
   visibility: visible;
   cursor: pointer;
+  padding: 10px;
+  opacity: 0.5;
+  transition: opacity .1s;
 }
 
-.footer__delete_completed:hover {
+.footer__delete_completed_view:hover {
   text-decoration: underline;
   opacity: 1;
 }

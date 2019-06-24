@@ -4,6 +4,10 @@
 }
 
 .main__toggle_all {
+  display: none;
+}
+
+.main__toggle_all_view{
   width: 40px;
   height: 30px;
   position: absolute;
@@ -12,14 +16,10 @@
   -webkit-appearance: none;
   -moz-appearance: none;
   outline: none;
-  display: none;
-}
-
-.main__toggle_all_view{
   display: block;
 }
 
-.main__toggle_all::after {
+.main__toggle_all_view::after {
   position: absolute;
   background-image: url(http://www.clipartbest.com/cliparts/di8/pRL/di8pRL8XT.png);
   background-size: cover;
@@ -29,7 +29,7 @@
   opacity: 0.5;
 }
 
-.main__toggle_all:checked::after {
+.main__toggle_all_view:checked::after {
   opacity: 1;
 }
 

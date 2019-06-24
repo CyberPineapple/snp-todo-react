@@ -13,6 +13,9 @@
 
 .item__button_delete {
   display: none;
+}
+
+.item__button_delete_view {
   opacity: 0.5;
   transition: opacity 0.3s;
   cursor: pointer;
@@ -22,13 +25,10 @@
   position: absolute;
   background-image: url(../../images/da3bd826876f76c.png);
   background-size: cover;
-}
-
-.item__button_delete_view {
   display: block;
 }
 
-.item__button_delete:hover {
+.item__button_delete_view:hover {
   opacity: 1;
 }
 
@@ -82,5 +82,9 @@
 .item__text_completed {
   color: grey;
   text-decoration: line-through;
+  word-wrap: break-word;
+  width: 70%;
+  height: 100%;
+  position: relative;
   transition: 1s;
 }

@@ -1,23 +1,20 @@
 import React from "react";
-import styles from "./footer.module.css";
+import styles from "./Footer.module.css";
 
 export default class Footer extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      radioValue: "all"
-    };
-  }
+  state = {
+    radioValue: "all"
+  };
 
   render() {
     let activeItems = this.props.list.filter(value => !value.completed);
     let styleButtonClearCompleted = styles.footer__delete_completed;
     let styleFooter = styles.footer;
     if (this.props.list.length > 0){
-      styleFooter += " " + styles.footer_view
+      styleFooter = styles.footer_view
     }
     if (activeItems.length !== this.props.list.length){
-      styleButtonClearCompleted += " " + styles.footer__delete_completed_view
+      styleButtonClearCompleted = styles.footer__delete_completed_view
     }
 
     return (
