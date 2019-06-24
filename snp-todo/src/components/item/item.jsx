@@ -8,6 +8,55 @@ export default class Item extends React.Component {
     text: ""
   };
 
+  handleOnMouseOver = () => {
+    this.setState({
+      viewDeleteButton: true
+    });
+  };
+
+  handleOnMouseOut = () => {
+    this.setState({
+      viewDeleteButton: false
+    });
+  };
+
+  handleOnDoubleClick = () => {
+    this.setState({
+      editing: true,
+      text: this.props.data.text
+    });
+  };
+
+  handleInputFieldOnChange = e => {
+    this.setState({
+      text: e.value
+    });
+  };
+
+  handleInputFieldOnBlur = () => {
+    if (this.state.text !== "" && this.state.text[0] !== " ") {
+      this.props.editItem(this.props.data, this.state.text);
+      this.setState({
+        editing: false
+      });
+    } else {
+      this.props.deleteItem(this.props.data);
+    }
+  };
+
+  handleInputFieldOnKeyPress = e => {
+    if (e.key === "Enter") {
+      if (this.state.text !== "" && this.state.text[0] !== " ") {
+        this.props.editItem(this.props.data, this.state.text);
+        this.setState({
+          editing: false
+        });
+      } else {
+        this.props.deleteItem(this.props.data);
+      }
+    }
+  };
+
   render() {
     const { data } = this.props;
     let styleDeleteButton = styles.item__button_delete;
@@ -60,52 +109,4 @@ export default class Item extends React.Component {
     );
   }
 
-  handleOnMouseOver = () => {
-    this.setState({
-      viewDeleteButton: true
-    });
-  };
-
-  handleOnMouseOut = () => {
-    this.setState({
-      viewDeleteButton: false
-    });
-  };
-
-  handleOnDoubleClick = () => {
-    this.setState({
-      editing: true,
-      text: this.props.data.text
-    });
-  };
-
-  handleInputFieldOnChange = e => {
-    this.setState({
-      text: e.value
-    });
-  };
-
-  handleInputFieldOnBlur = () => {
-    if (this.state.text !== "" && this.state.text[0] !== " ") {
-      this.props.editItem(this.props.data, this.state.text);
-      this.setState({
-        editing: false
-      });
-    } else {
-      this.props.deleteItem(this.props.data);
-    }
-  };
-
-  handleInputFieldOnKeyPress = e => {
-    if (e.key === "Enter") {
-      if (this.state.text !== "" && this.state.text[0] !== " ") {
-        this.props.editItem(this.props.data, this.state.text);
-        this.setState({
-          editing: false
-        });
-      } else {
-        this.props.deleteItem(this.props.data);
-      }
-    }
-  };
 }

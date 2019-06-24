@@ -3,11 +3,15 @@ import styles from "./Main.module.css";
 import Item from "../Item/Item";
 
 export default class Main extends React.Component {
+
+  handleToggleAllOnChange = (e) => {
+    this.props.toggleAllItems(e.target.checked);
+  }
+
   render() {
     let list;
     const listCompleted = this.props.list.filter(value => value.completed);
     let styleButtonToggleAll = styles.main__toggle_all;
-
 
     if (this.props.list.length > 0) {
       styleButtonToggleAll = styles.main__toggle_all_view;
@@ -64,7 +68,4 @@ export default class Main extends React.Component {
     );
   }
 
-  handleToggleAllOnChange = (e) => {
-    this.props.toggleAllItems(e.target.checked);
-  }
 }

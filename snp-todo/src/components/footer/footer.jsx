@@ -6,8 +6,20 @@ export default class Footer extends React.Component {
     radioValue: "all"
   };
 
+  handleRadioChange = e => {
+    this.props.toggleShowItems(e.target.value);
+    this.setState({
+      radioValue: e.target.value
+    });
+  };
+
+  handleButtonClearOnClick = () => {
+    this.props.deleteCompletedItem();
+  };
+
   render() {
-    let activeItems = this.props.list.filter(value => !value.completed);
+    const activeItems = this.props.list.filter(value => !value.completed);
+    const { radioValue } = this.state;
     let styleButtonClearCompleted = styles.footer__delete_completed;
     let styleFooter = styles.footer;
     if (this.props.list.length > 0){
@@ -27,7 +39,7 @@ export default class Footer extends React.Component {
           id="all"
           value="all"
           onChange={e => this.handleRadioChange(e)}
-          checked={this.state.radioValue === "all"}
+          checked={radioValue === "all"}
         />
         <label htmlFor="all" className={styles.footer__button}>
           all
@@ -37,7 +49,7 @@ export default class Footer extends React.Component {
           id="completed"
           value="completed"
           onChange={e => this.handleRadioChange(e)}
-          checked={this.state.radioValue === "completed"}
+          checked={radioValue === "completed"}
         />
         <label htmlFor="completed" className={styles.footer__button}>
           completed
@@ -47,7 +59,7 @@ export default class Footer extends React.Component {
           id="active"
           value="active"
           onChange={e => this.handleRadioChange(e)}
-          checked={this.state.radioValue === "active"}
+          checked={radioValue === "active"}
         />
         <label htmlFor="active" className={styles.footer__button}>
           active
@@ -55,16 +67,6 @@ export default class Footer extends React.Component {
         <div className={styleButtonClearCompleted} onClick={() => this.handleButtonClearOnClick()}>delete completed</div>
       </div>
     );
-  }
-
-  handleRadioChange = e => {
-    this.props.toggleShowItems(e.target.value);
-    this.setState({
-      radioValue: e.target.value
-    });
   };
 
-  handleButtonClearOnClick = () => {
-    this.props.deleteCompletedItem();
-  }
 }
