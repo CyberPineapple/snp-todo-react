@@ -4,116 +4,103 @@ import Main from "./components/Main/Main";
 import Footer from "./components/Footer/Footer";
 
 export default class App extends React.Component {
-
   state = {
-    listOfItems: [],
-    typeOfItems: "all"
+    itemsList: JSON.parse(localStorage.getItem("list")) || [],
+    activeFilter: "all"
   };
-
-  componentDidMount() {
-    const { listOfItems } = this.state;
-    let newList = JSON.parse(localStorage.getItem("list"));
-    if (newList && !listOfItems.length) {
-      this.setState({
-        listOfItems: JSON.parse(localStorage.getItem("list"))
-      });
-    }
-  }
 
   addNewItem = value => {
-    localStorage.setItem("list", JSON.stringify(this.state.listOfItems.concat(value)));
+    const { itemsList } = this.state;
+    const newList = [...itemsList, value];
+    localStorage.setItem("list", JSON.stringify(newList));
     this.setState({
-      listOfItems: this.state.listOfItems.concat(value)
+      itemsList: newList
     });
   };
 
-  toggleItem = (item, completed) => {
-    let newList = this.state.listOfItems;
-    for (let key in newList) {
-      if (newList[key].id === item.id) {
-        newList[key].completed = completed;
+  toggleItem = itemId => {
+    const { itemsList } = this.state;
+    const newList = itemsList.map(value => {
+      if (value.id === itemId){
+        value.completed = !value.completed;
       }
-    }
+      return value;
+    });
     localStorage.setItem("list", JSON.stringify(newList));
     this.setState({
-      listOfItems: newList
+      itemsList: newList
     });
   };
 
-  deleteItem = item => {
-    let newList = this.state.listOfItems;
-    newList = newList.filter(value => value.id !== item.id);
-    if (!newList) {
-      newList = [];
-    }
+  deleteItem = itemId => {
+    const { itemsList } = this.state;
+    const newList = itemsList.filter(value => value.id !== itemId);
     localStorage.setItem("list", JSON.stringify(newList));
     this.setState({
-      listOfItems: newList
+      itemsList: newList
     });
   };
 
-  editItem = (item, text) => {
-    let newList = this.state.listOfItems;
-    for (let key in newList) {
-      if (newList[key].id === item.id) {
-        newList[key].text = text;
+  editItem = (itemId, text) => {
+    const { itemsList } = this.state;
+    const newList = itemsList.map(value => {
+      if (value.id === itemId){
+        value.text = text;
       }
-    }
+      return value;
+    });
     localStorage.setItem("list", JSON.stringify(newList));
     this.setState({
-      listOfItems: newList
+      itemsList: newList
     });
   };
 
-  toggleShowItems = value => {
+  toggleFilterTheItems = value => {
     this.setState({
-      typeOfItems: value
+      activeFilter: value
     });
   };
 
   deleteCompletedItem = () => {
-    let newList = this.state.listOfItems;
-    newList = newList.filter(value => !value.completed);
-    if (!newList) {
-      newList = [];
-    }
+    const { itemsList } = this.state;
+    const newList = itemsList.filter(value => !value.completed);
     localStorage.setItem("list", JSON.stringify(newList));
     this.setState({
-      listOfItems: newList
+      itemsList: newList
     });
   };
 
-  toggleAllItems = (checked) => {
-    let newList = this.state.listOfItems;
-    for (let key in newList){
+  toggleAllItems = checked => {
+    let newList = this.state.itemsList;
+    for (let key in newList) {
       newList[key].completed = checked;
-    };
+    }
     localStorage.setItem("list", JSON.stringify(newList));
     this.setState({
-      listOfItems: newList
+      itemsList: newList
     });
   };
 
   render() {
-    const { listOfItems } = this.state;
+    const { itemsList } = this.state;
 
     return (
       <>
-        <Header list={listOfItems} addNewItem={this.addNewItem} />
+        <Header itemsList={itemsList} addNewItem={this.addNewItem} />
         <Main
-          list={listOfItems}
+          itemsList={itemsList}
           toggleItem={this.toggleItem}
           deleteItem={this.deleteItem}
           editItem={this.editItem}
-          typeOfItems={this.state.typeOfItems}
+          activeFilter={this.state.activeFilter}
           toggleAllItems={this.toggleAllItems}
         />
         <Footer
-          list={listOfItems}
-          toggleShowItems={this.toggleShowItems}
+          itemsList={itemsList}
+          toggleFilterTheItems={this.toggleFilterTheItems}
           deleteCompletedItem={this.deleteCompletedItem}
         />
       </>
     );
-  };
+  }
 }

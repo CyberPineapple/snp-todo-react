@@ -34,31 +34,48 @@ export default class Item extends React.Component {
   };
 
   handleInputFieldOnBlur = () => {
-    if (this.state.text !== "" && this.state.text[0] !== " ") {
-      this.props.editItem(this.props.data, this.state.text);
+    const { id } = this.props.data;
+    const { editItem, deleteItem } = this.props;
+    const { text } = this.state;
+    if (text !== "" && text[0] !== " ") {
+      editItem(id, text);
       this.setState({
         editing: false
       });
     } else {
-      this.props.deleteItem(this.props.data);
+      deleteItem(id);
     }
   };
 
   handleInputFieldOnKeyPress = e => {
     if (e.key === "Enter") {
-      if (this.state.text !== "" && this.state.text[0] !== " ") {
-        this.props.editItem(this.props.data, this.state.text);
+      const { id } = this.props.data;
+      const { editItem, deleteItem } = this.props;
+      const { text } = this.state;
+      if (text !== "" && text[0] !== " ") {
+        editItem(id, text);
         this.setState({
           editing: false
         });
       } else {
-        this.props.deleteItem(this.props.data);
+        deleteItem(id);
       }
     }
   };
 
+  handleCheckboxChange = () => {
+    const { data, toggleItem } = this.props;
+    toggleItem(data.id);
+  }
+
+  handleDeleteButtonClick = () => {
+    const { data, deleteItem } = this.props;
+    deleteItem(data.id);
+  }
+
   render() {
     const { data } = this.props;
+    const { editing, text } = this.state;
     let styleDeleteButton = styles.item__button_delete;
     let styleText = styles.item__text;
     let editBlock;
@@ -68,13 +85,13 @@ export default class Item extends React.Component {
     if (data.completed) {
       styleText = styles.item__text_completed;
     }
-    if (this.state.editing) {
+    if (editing) {
       editBlock = (
         <input
           type="text"
           className={styles.item__edit}
           autoFocus
-          value={this.state.text}
+          value={text}
           onBlur={() => this.handleInputFieldOnBlur()}
           onChange={e => this.handleInputFieldOnChange(e.target)}
           onKeyPress={e => this.handleInputFieldOnKeyPress(e)}
@@ -92,7 +109,7 @@ export default class Item extends React.Component {
           type="checkbox"
           className={styles.item__checkbox}
           checked={data.completed}
-          onChange={() => this.props.toggleItem(data, !data.completed)}
+          onChange={() => this.handleCheckboxChange()}
         />
         <label
           className={styleText}
@@ -102,7 +119,7 @@ export default class Item extends React.Component {
         </label>
         <div
           className={styleDeleteButton}
-          onClick={() => this.props.deleteItem(data)}
+          onClick={() => this.handleDeleteButtonClick()}
         />
         {editBlock}
       </li>

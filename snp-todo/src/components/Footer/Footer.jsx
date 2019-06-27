@@ -6,26 +6,27 @@ export default class Footer extends React.Component {
     radioValue: "all"
   };
 
-  handleRadioChange = e => {
-    this.props.toggleShowItems(e.target.value);
+  handleRadioChange = value => {
+    this.props.toggleFilterTheItems(value);
     this.setState({
-      radioValue: e.target.value
+      radioValue: value
     });
   };
 
-  handleButtonClearOnClick = () => {
+  handleButtonClearClick = () => {
     this.props.deleteCompletedItem();
   };
 
   render() {
-    const activeItems = this.props.list.filter(value => !value.completed);
     const { radioValue } = this.state;
+    const { itemsList } = this.props;
+    const activeItems = itemsList.filter(value => !value.completed);
     let styleButtonClearCompleted = styles.footer__delete_completed;
     let styleFooter = styles.footer;
-    if (this.props.list.length > 0){
+    if (!!itemsList.length){
       styleFooter = styles.footer_view
     }
-    if (activeItems.length !== this.props.list.length){
+    if (activeItems.length !== itemsList.length){
       styleButtonClearCompleted = styles.footer__delete_completed_view
     }
 
@@ -38,7 +39,7 @@ export default class Footer extends React.Component {
           type={"radio"}
           id="all"
           value="all"
-          onChange={e => this.handleRadioChange(e)}
+          onChange={e => this.handleRadioChange(e.target.value)}
           checked={radioValue === "all"}
         />
         <label htmlFor="all" className={styles.footer__button}>
@@ -48,7 +49,7 @@ export default class Footer extends React.Component {
           type={"radio"}
           id="completed"
           value="completed"
-          onChange={e => this.handleRadioChange(e)}
+          onChange={e => this.handleRadioChange(e.target.value)}
           checked={radioValue === "completed"}
         />
         <label htmlFor="completed" className={styles.footer__button}>
@@ -58,13 +59,13 @@ export default class Footer extends React.Component {
           type={"radio"}
           id="active"
           value="active"
-          onChange={e => this.handleRadioChange(e)}
+          onChange={e => this.handleRadioChange(e.target.value)}
           checked={radioValue === "active"}
         />
         <label htmlFor="active" className={styles.footer__button}>
           active
         </label>
-        <div className={styleButtonClearCompleted} onClick={() => this.handleButtonClearOnClick()}>delete completed</div>
+        <div className={styleButtonClearCompleted} onClick={() => this.handleButtonClearClick()}>delete completed</div>
       </div>
     );
   };

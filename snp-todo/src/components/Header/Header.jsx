@@ -6,21 +6,23 @@ export default class Header extends React.Component {
     textOfTheNewItem: ""
   };
 
-  handleOnChange = e => {
+  handleChange = value => {
     this.setState({
-      textOfTheNewItem: e.value
+      textOfTheNewItem: value
     });
   };
 
   handleKeyPress = e => {
+    const { addNewItem } = this.props;
+    const { textOfTheNewItem } = this.state;
     if (
       e.key === "Enter" &&
-      this.state.textOfTheNewItem[0] !== " " &&
-      this.state.textOfTheNewItem[1] !== " " &&
-      this.state.textOfTheNewItem !== ""
+      textOfTheNewItem[0] !== " " &&
+      textOfTheNewItem[1] !== " " &&
+      textOfTheNewItem !== ""
     ) {
-      this.props.addNewItem({
-        text: this.state.textOfTheNewItem,
+      addNewItem({
+        text: textOfTheNewItem,
         id: Date.now(),
         completed: false
       });
@@ -31,9 +33,10 @@ export default class Header extends React.Component {
   };
 
   render() {
-    const { list } = this.props;
+    const { itemsList } = this.props;
+    const { textOfTheNewItem } = this.state;
     let styleInputText = header.header__input;
-    if (!list.length) {
+    if (!itemsList.length) {
       styleInputText = header.header__input_primal;
     }
 
@@ -111,8 +114,8 @@ export default class Header extends React.Component {
           type="text"
           autoFocus
           placeholder="What needs to be done?"
-          value={this.state.textOfTheNewItem}
-          onChange={e => this.handleOnChange(e.target)}
+          value={textOfTheNewItem}
+          onChange={e => this.handleChange(e.target.value)}
           onKeyPress={e => this.handleKeyPress(e)}
         />
       </>
