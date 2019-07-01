@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import header from "./Header.module.css";
 
 export default class Header extends React.Component {
@@ -6,17 +6,17 @@ export default class Header extends React.Component {
     textOfTheNewItem: ""
   };
 
-  handleChange = value => {
+  handleChange = event => {
     this.setState({
-      textOfTheNewItem: value
+      textOfTheNewItem: event.target.value
     });
   };
 
-  handleKeyPress = e => {
+  handleKeyPress = event => {
     const { addNewItem } = this.props;
     const { textOfTheNewItem } = this.state;
     if (
-      e.key === "Enter" &&
+      event.key === "Enter" &&
       textOfTheNewItem[0] !== " " &&
       textOfTheNewItem[1] !== " " &&
       textOfTheNewItem !== ""
@@ -33,15 +33,15 @@ export default class Header extends React.Component {
   };
 
   render() {
-    const { itemsList } = this.props;
+    const { isChangedInput } = this.props;
     const { textOfTheNewItem } = this.state;
     let styleInputText = header.header__input;
-    if (!itemsList.length) {
+    if (isChangedInput) {
       styleInputText = header.header__input_primal;
     }
 
     return (
-      <>
+      <Fragment>
         <div className={header.logo}>
           <div className={header.pacman}>
             <div className={header.pacman__item1} />
@@ -115,11 +115,10 @@ export default class Header extends React.Component {
           autoFocus
           placeholder="What needs to be done?"
           value={textOfTheNewItem}
-          onChange={e => this.handleChange(e.target.value)}
-          onKeyPress={e => this.handleKeyPress(e)}
+          onChange={this.handleChange}
+          onKeyPress={this.handleKeyPress}
         />
-      </>
+      </Fragment>
     );
   }
-
 }

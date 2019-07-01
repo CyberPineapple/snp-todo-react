@@ -27,9 +27,9 @@ export default class Item extends React.Component {
     });
   };
 
-  handleInputFieldOnChange = e => {
+  handleInputFieldOnChange = event => {
     this.setState({
-      text: e.value
+      text: event.target.value
     });
   };
 
@@ -47,8 +47,8 @@ export default class Item extends React.Component {
     }
   };
 
-  handleInputFieldOnKeyPress = e => {
-    if (e.key === "Enter") {
+  handleInputFieldOnKeyPress = event => {
+    if (event.key === "Enter") {
       const { id } = this.props.data;
       const { editItem, deleteItem } = this.props;
       const { text } = this.state;
@@ -66,20 +66,20 @@ export default class Item extends React.Component {
   handleCheckboxChange = () => {
     const { data, toggleItem } = this.props;
     toggleItem(data.id);
-  }
+  };
 
   handleDeleteButtonClick = () => {
     const { data, deleteItem } = this.props;
     deleteItem(data.id);
-  }
+  };
 
   render() {
     const { data } = this.props;
-    const { editing, text } = this.state;
+    const { editing, text, viewDeleteButton } = this.state;
     let styleDeleteButton = styles.item__button_delete;
     let styleText = styles.item__text;
     let editBlock;
-    if (this.state.viewDeleteButton) {
+    if (viewDeleteButton) {
       styleDeleteButton = styles.item__button_delete_view;
     }
     if (data.completed) {
@@ -92,9 +92,9 @@ export default class Item extends React.Component {
           className={styles.item__edit}
           autoFocus
           value={text}
-          onBlur={() => this.handleInputFieldOnBlur()}
-          onChange={e => this.handleInputFieldOnChange(e.target)}
-          onKeyPress={e => this.handleInputFieldOnKeyPress(e)}
+          onBlur={this.handleInputFieldOnBlur}
+          onChange={this.handleInputFieldOnChange}
+          onKeyPress={this.handleInputFieldOnKeyPress}
         />
       );
     }
@@ -102,28 +102,24 @@ export default class Item extends React.Component {
     return (
       <li
         className={styles.item}
-        onMouseOver={() => this.handleOnMouseOver()}
-        onMouseOut={() => this.handleOnMouseOut()}
+        onMouseOver={this.handleOnMouseOver}
+        onMouseOut={this.handleOnMouseOut}
       >
         <input
           type="checkbox"
           className={styles.item__checkbox}
           checked={data.completed}
-          onChange={() => this.handleCheckboxChange()}
+          onChange={this.handleCheckboxChange}
         />
-        <label
-          className={styleText}
-          onDoubleClick={() => this.handleOnDoubleClick()}
-        >
+        <label className={styleText} onDoubleClick={this.handleOnDoubleClick}>
           {data.text}
         </label>
         <div
           className={styleDeleteButton}
-          onClick={() => this.handleDeleteButtonClick()}
+          onClick={this.handleDeleteButtonClick}
         />
         {editBlock}
       </li>
     );
   }
-
 }

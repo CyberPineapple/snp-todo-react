@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import Header from "./components/Header/Header";
 import Main from "./components/Main/Main";
 import Footer from "./components/Footer/Footer";
@@ -20,12 +20,13 @@ export default class App extends React.Component {
 
   toggleItem = itemId => {
     const { itemsList } = this.state;
-    const newList = itemsList.map(value => {
-      if (value.id === itemId){
-        value.completed = !value.completed;
+    const newList = [...itemsList];
+    for (let key in newList) {
+      if (newList[key].id === itemId) {
+        newList[key].completed = !newList[key].completed;
+        break;
       }
-      return value;
-    });
+    }
     localStorage.setItem("list", JSON.stringify(newList));
     this.setState({
       itemsList: newList
@@ -43,19 +44,20 @@ export default class App extends React.Component {
 
   editItem = (itemId, text) => {
     const { itemsList } = this.state;
-    const newList = itemsList.map(value => {
-      if (value.id === itemId){
-        value.text = text;
+    const newList = [...itemsList];
+    for (let key in newList) {
+      if (newList[key].id === itemId) {
+        newList[key].text = text;
+        break;
       }
-      return value;
-    });
+    }
     localStorage.setItem("list", JSON.stringify(newList));
     this.setState({
       itemsList: newList
     });
   };
 
-  toggleFilterTheItems = value => {
+  setActiveFilter = value => {
     this.setState({
       activeFilter: value
     });
@@ -71,7 +73,8 @@ export default class App extends React.Component {
   };
 
   toggleAllItems = checked => {
-    let newList = this.state.itemsList;
+    const { itemsList } = this.state;
+    let newList = [...itemsList];
     for (let key in newList) {
       newList[key].completed = checked;
     }
@@ -85,8 +88,8 @@ export default class App extends React.Component {
     const { itemsList } = this.state;
 
     return (
-      <>
-        <Header itemsList={itemsList} addNewItem={this.addNewItem} />
+      <Fragment>
+        <Header isChangedInput={!itemsList.length} addNewItem={this.addNewItem} />
         <Main
           itemsList={itemsList}
           toggleItem={this.toggleItem}
@@ -97,10 +100,10 @@ export default class App extends React.Component {
         />
         <Footer
           itemsList={itemsList}
-          toggleFilterTheItems={this.toggleFilterTheItems}
+          setActiveFilter={this.setActiveFilter}
           deleteCompletedItem={this.deleteCompletedItem}
         />
-      </>
+      </Fragment>
     );
   }
 }
