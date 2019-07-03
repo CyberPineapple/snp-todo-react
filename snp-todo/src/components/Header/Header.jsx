@@ -1,7 +1,7 @@
-import React, { Fragment } from "react";
+import React, { Component, Fragment } from "react";
 import header from "./Header.module.css";
 
-export default class Header extends React.Component {
+export default class Header extends Component {
   state = {
     textOfTheNewItem: ""
   };

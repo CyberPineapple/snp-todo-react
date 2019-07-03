@@ -1,8 +1,4 @@
 .footer {
-  visibility: hidden;
-}
-
-.footer_view{
   max-width: 600px;
   width: 100%;
   min-width: 400px;
@@ -21,7 +17,6 @@
   font-size: 20px;
   padding-left: 10px;
   padding-right: 10px;
-  visibility: visible;
 }
 
 .footer__button {

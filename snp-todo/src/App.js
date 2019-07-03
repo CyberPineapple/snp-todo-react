@@ -1,9 +1,9 @@
-import React, { Fragment } from "react";
+import React, { Component, Fragment } from "react";
 import Header from "./components/Header/Header";
-import Main from "./components/Main/Main";
+import TodosList from "./components/TodosList/TodosList";
 import Footer from "./components/Footer/Footer";
 
-export default class App extends React.Component {
+export default class App extends Component {
   state = {
     itemsList: JSON.parse(localStorage.getItem("list")) || [],
     activeFilter: "all"
@@ -59,7 +59,7 @@ export default class App extends React.Component {
 
   setActiveFilter = value => {
     this.setState({
-      activeFilter: value
+      activeFilter: value.target.value
     });
   };
 
@@ -85,24 +85,34 @@ export default class App extends React.Component {
   };
 
   render() {
-    const { itemsList } = this.state;
+    const { itemsList, activeFilter } = this.state;
+    const footer = itemsList.length ? (
+      <Footer
+        itemsList={itemsList}
+        setActiveFilter={this.setActiveFilter}
+        deleteCompletedItem={this.deleteCompletedItem}
+        activeFilter={activeFilter}
+      />
+    ) : null;
+    const todosList = itemsList.length ? (
+      <TodosList
+        itemsList={itemsList}
+        toggleItem={this.toggleItem}
+        deleteItem={this.deleteItem}
+        editItem={this.editItem}
+        activeFilter={activeFilter}
+        toggleAllItems={this.toggleAllItems}
+      />
+    ) : null;
 
     return (
       <Fragment>
-        <Header isChangedInput={!itemsList.length} addNewItem={this.addNewItem} />
-        <Main
-          itemsList={itemsList}
-          toggleItem={this.toggleItem}
-          deleteItem={this.deleteItem}
-          editItem={this.editItem}
-          activeFilter={this.state.activeFilter}
-          toggleAllItems={this.toggleAllItems}
+        <Header
+          isChangedInput={!itemsList.length}
+          addNewItem={this.addNewItem}
         />
-        <Footer
-          itemsList={itemsList}
-          setActiveFilter={this.setActiveFilter}
-          deleteCompletedItem={this.deleteCompletedItem}
-        />
+        {todosList}
+        {footer}
       </Fragment>
     );
   }

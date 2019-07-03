@@ -1,61 +1,67 @@
-import React from "react";
+import React, { Component } from "react";
 import styles from "./Item.module.css";
 
-export default class Item extends React.Component {
+export default class Item extends Component {
   state = {
-    viewDeleteButton: false,
-    editing: false,
+    isVisibleDeleteButton: false,
+    isisEditing: false,
     text: ""
   };
 
-  handleOnMouseOver = () => {
+  handleMouseOver = () => {
     this.setState({
-      viewDeleteButton: true
+      isVisibleDeleteButton: true
     });
   };
 
-  handleOnMouseOut = () => {
+  handleMouseOut = () => {
     this.setState({
-      viewDeleteButton: false
+      isVisibleDeleteButton: false
     });
   };
 
-  handleOnDoubleClick = () => {
+  handleDoubleClick = () => {
     this.setState({
-      editing: true,
+      isEditing: true,
       text: this.props.data.text
     });
   };
 
-  handleInputFieldOnChange = event => {
+  handleInputFieldChange = event => {
     this.setState({
       text: event.target.value
     });
   };
 
-  handleInputFieldOnBlur = () => {
-    const { id } = this.props.data;
-    const { editItem, deleteItem } = this.props;
+  handleInputFieldBlur = () => {
+    const {
+      editItem,
+      deleteItem,
+      data: { id }
+    } = this.props;
     const { text } = this.state;
     if (text !== "" && text[0] !== " ") {
       editItem(id, text);
       this.setState({
-        editing: false
+        isEditing: false
       });
     } else {
       deleteItem(id);
     }
   };
 
-  handleInputFieldOnKeyPress = event => {
+  handleInputFieldKeyPress = event => {
     if (event.key === "Enter") {
-      const { id } = this.props.data;
-      const { editItem, deleteItem } = this.props;
+      const {
+        editItem,
+        deleteItem,
+        data: { id }
+      } = this.props;
       const { text } = this.state;
       if (text !== "" && text[0] !== " ") {
         editItem(id, text);
         this.setState({
-          editing: false
+          isEditing: false
         });
       } else {
         deleteItem(id);
@@ -64,46 +70,47 @@ export default class Item extends React.Component {
   };
 
   handleCheckboxChange = () => {
-    const { data, toggleItem } = this.props;
-    toggleItem(data.id);
+    const {
+      data: { id },
+      toggleItem
+    } = this.props;
+    toggleItem(id);
   };
 
   handleDeleteButtonClick = () => {
-    const { data, deleteItem } = this.props;
-    deleteItem(data.id);
+    const {
+      data: { id },
+      deleteItem
+    } = this.props;
+    deleteItem(id);
   };
 
   render() {
     const { data } = this.props;
-    const { editing, text, viewDeleteButton } = this.state;
-    let styleDeleteButton = styles.item__button_delete;
-    let styleText = styles.item__text;
-    let editBlock;
-    if (viewDeleteButton) {
-      styleDeleteButton = styles.item__button_delete_view;
-    }
-    if (data.completed) {
-      styleText = styles.item__text_completed;
-    }
-    if (editing) {
-      editBlock = (
-        <input
-          type="text"
-          className={styles.item__edit}
-          autoFocus
-          value={text}
-          onBlur={this.handleInputFieldOnBlur}
-          onChange={this.handleInputFieldOnChange}
-          onKeyPress={this.handleInputFieldOnKeyPress}
-        />
-      );
-    }
+    const { isEditing, text, isVisibleDeleteButton } = this.state;
+    const styleDeleteButton = isVisibleDeleteButton
+      ? styles.item__button_delete_view
+      : styles.item__button_delete;
+    const styleText = data.completed
+      ? styles.item__text_completed
+      : styles.item__text;
+    const editBlock = isEditing ? (
+      <input
+        type="text"
+        className={styles.item__edit}
+        autoFocus
+        value={text}
+        onBlur={this.handleInputFieldBlur}
+        onChange={this.handleInputFieldChange}
+        onKeyPress={this.handleInputFieldKeyPress}
+      />
+    ) : null;
 
     return (
       <li
         className={styles.item}
-        onMouseOver={this.handleOnMouseOver}
-        onMouseOut={this.handleOnMouseOut}
+        onMouseOver={this.handleMouseOver}
+        onMouseOut={this.handleMouseOut}
       >
         <input
           type="checkbox"
@@ -111,7 +118,7 @@ export default class Item extends React.Component {
           checked={data.completed}
           onChange={this.handleCheckboxChange}
         />
-        <label className={styleText} onDoubleClick={this.handleOnDoubleClick}>
+        <label className={styleText} onDoubleClick={this.handleDoubleClick}>
           {data.text}
         </label>
         <div
