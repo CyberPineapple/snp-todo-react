@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styles from "./Footer.module.css";
-import FooterButton from "../FooterButton/FooterButton";
+import FooterRadioButton from "./FooterRadioButton/FooterRadioButton";
+import filters from "../../constants/filters";
 
 export default class Footer extends Component {
   handleButtonClearClick = () => {
@@ -8,34 +9,36 @@ export default class Footer extends Component {
   };
 
   render() {
-    const { itemsList, activeFilter, setActiveFilter } = this.props;
-    const activeItems = itemsList.filter(value => !value.completed);
-    const filters = ["all", "completed", "active"];
-    const buttons = filters.map((value, id) => (
-      <FooterButton
-        key={id}
-        data={value}
-        activeFilter={activeFilter}
-        setActiveFilter={setActiveFilter}
+    const {
+      activeFilter,
+      setActiveFilter,
+      isVisibleDeleteButton,
+      countActiveItems
+    } = this.props;
+    const radioButtons = filters.map(value => (
+      <FooterRadioButton
+        key={value}
+        value={value}
+        isChecked={activeFilter === value}
+        onChangeActiveFilter={setActiveFilter}
       />
     ));
-    let styleButtonClearCompleted = styles.footer__delete_completed;
-    if (activeItems.length !== itemsList.length) {
-      styleButtonClearCompleted = styles.footer__delete_completed_view;
-    }
+    const deleteCompletedButton = isVisibleDeleteButton ? (
+      <div
+        className={styles.footer__delete_completed}
+        onClick={this.handleButtonClearClick}
+      >
+        delete completed
+      </div>
+    ) : null;
 
     return (
       <div className={styles.footer}>
         <p className={styles.footer__counter}>
-          items left {activeItems.length}
+          items left {countActiveItems}
         </p>
-        {buttons}
-        <div
-          className={styleButtonClearCompleted}
-          onClick={this.handleButtonClearClick}
-        >
-          delete completed
-        </div>
+        {radioButtons}
+        {deleteCompletedButton}
       </div>
     );
   }

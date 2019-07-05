@@ -4,7 +4,7 @@ import styles from "./Item.module.css";
 export default class Item extends Component {
   state = {
     isVisibleDeleteButton: false,
-    isisEditing: false,
+    isEditing: false,
     text: ""
   };
 

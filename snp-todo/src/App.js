@@ -86,12 +86,14 @@ export default class App extends Component {
 
   render() {
     const { itemsList, activeFilter } = this.state;
+    const activeItems = itemsList.filter(value => !value.completed);
     const footer = itemsList.length ? (
       <Footer
-        itemsList={itemsList}
         setActiveFilter={this.setActiveFilter}
         deleteCompletedItem={this.deleteCompletedItem}
         activeFilter={activeFilter}
+        isVisibleDeleteButton={activeItems.length !== itemsList.length}
+        countActiveItems={activeItems.length}
       />
     ) : null;
     const todosList = itemsList.length ? (

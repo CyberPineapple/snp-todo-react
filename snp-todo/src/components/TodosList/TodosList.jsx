@@ -8,25 +8,19 @@ export default class TodosList extends Component {
   };
 
   getItemList = filter => {
-    let list;
     const { itemsList } = this.props;
     switch (filter) {
       case "all": {
-        list = itemsList;
-        break;
+        return itemsList;
       }
       case "completed": {
-        list = itemsList.filter(value => value.completed);
-        break;
+        return itemsList.filter(value => value.completed);
       }
       case "active": {
-        list = itemsList.filter(value => !value.completed);
-        break;
+        return itemsList.filter(value => !value.completed);
       }
-      default:
-        break;
+      default: return itemsList;
     }
-    return list;
   };
 
   render() {

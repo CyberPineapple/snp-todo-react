@@ -31,33 +31,18 @@
   opacity: 1;
 }
 
-input[type="radio"] {
-  display: none;
-}
-
-input[type="radio"]:checked + .footer__button {
-  text-decoration: underline;
-  text-decoration-color: white;
-  opacity: 1;
-}
-
 .footer__counter {
   padding: 10px;
 }
 
-.footer__delete_completed {
-  visibility: hidden;
-}
-
-.footer__delete_completed_view {
-  visibility: visible;
+.footer__delete_completed{
   cursor: pointer;
   padding: 10px;
   opacity: 0.5;
   transition: opacity .1s;
 }
 
-.footer__delete_completed_view:hover {
+.footer__delete_completed:hover {
   text-decoration: underline;
   opacity: 1;
 }

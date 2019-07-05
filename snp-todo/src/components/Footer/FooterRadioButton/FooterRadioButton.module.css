@@ -1,4 +1,4 @@
-.footer__button {
+.radio__button {
   color: red;
   padding: 10px;
   cursor: pointer;
@@ -6,15 +6,15 @@
   transition: opacity 0.1s;
 }
 
-.footer__button:hover {
+.radio__button:hover {
   opacity: 1;
 }
 
-input[type="radio"] {
+.radio{
   display: none;
 }
 
-input[type="radio"]:checked + .footer__button {
+.radio:checked + .radio__button{
   text-decoration: underline;
   text-decoration-color: white;
   opacity: 1;
