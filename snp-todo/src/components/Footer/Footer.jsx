@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import styles from "./Footer.module.css";
-import FooterRadioButton from "./FooterRadioButton/FooterRadioButton";
+import FooterRadioButton from "./FooterRadioButton/";
 import filters from "../../constants/filters";
+import PropType from "prop-types";
 
 export default class Footer extends Component {
   handleButtonClearClick = () => {
@@ -13,33 +14,36 @@ export default class Footer extends Component {
       activeFilter,
       setActiveFilter,
       isVisibleDeleteButton,
-      countActiveItems
+      activeItemsCount
     } = this.props;
-    const radioButtons = filters.map(value => (
-      <FooterRadioButton
-        key={value}
-        value={value}
-        isChecked={activeFilter === value}
-        onChangeActiveFilter={setActiveFilter}
-      />
-    ));
-    const deleteCompletedButton = isVisibleDeleteButton ? (
-      <div
-        className={styles.footer__delete_completed}
-        onClick={this.handleButtonClearClick}
-      >
-        delete completed
-      </div>
-    ) : null;
 
     return (
-      <div className={styles.footer}>
-        <p className={styles.footer__counter}>
-          items left {countActiveItems}
-        </p>
-        {radioButtons}
-        {deleteCompletedButton}
+      <div className={styles.block}>
+        <p className={styles.counter}>items left {activeItemsCount}</p>
+        {filters.map(value => (
+          <FooterRadioButton
+            key={value}
+            value={value}
+            isChecked={activeFilter === value}
+            onChangeActiveFilter={setActiveFilter}
+          />
+        ))}
+        {isVisibleDeleteButton && (
+          <button
+            className={styles.deleteButton}
+            onClick={this.handleButtonClearClick}
+          >
+            delete completed
+          </button>
+        )}
       </div>
     );
   }
 }
+
+Footer.propTypes = {
+  activeFilter: PropType.string,
+  setActiveFilter: PropType.func,
+  isVisibleDeleteButton: PropType.bool,
+  activeItemsCount: PropType.number
+};

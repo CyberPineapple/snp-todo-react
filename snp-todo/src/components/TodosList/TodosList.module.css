@@ -1,4 +1,4 @@
-.list__toggle_all {
+.buttonToggleAll {
   width: 40px;
   height: 30px;
   position: absolute;
@@ -10,7 +10,7 @@
   display: block;
 }
 
-.list__toggle_all::after {
+.buttonToggleAll::after {
   position: absolute;
   background-image: url(http://www.clipartbest.com/cliparts/di8/pRL/di8pRL8XT.png);
   background-size: cover;
@@ -20,7 +20,7 @@
   opacity: 0.5;
 }
 
-.list__toggle_all:checked::after {
+.buttonToggleAll:checked::after {
   opacity: 1;
 }
 

@@ -87,25 +87,28 @@ export default class App extends Component {
   render() {
     const { itemsList, activeFilter } = this.state;
     const activeItems = itemsList.filter(value => !value.completed);
-    const footer = itemsList.length ? (
-      <Footer
-        setActiveFilter={this.setActiveFilter}
-        deleteCompletedItem={this.deleteCompletedItem}
-        activeFilter={activeFilter}
-        isVisibleDeleteButton={activeItems.length !== itemsList.length}
-        countActiveItems={activeItems.length}
-      />
-    ) : null;
-    const todosList = itemsList.length ? (
-      <TodosList
-        itemsList={itemsList}
-        toggleItem={this.toggleItem}
-        deleteItem={this.deleteItem}
-        editItem={this.editItem}
-        activeFilter={activeFilter}
-        toggleAllItems={this.toggleAllItems}
-      />
-    ) : null;
+    let footer, todosList;
+    if (itemsList.length) {
+      footer = (
+        <Footer
+          setActiveFilter={this.setActiveFilter}
+          deleteCompletedItem={this.deleteCompletedItem}
+          activeFilter={activeFilter}
+          isVisibleDeleteButton={activeItems.length !== itemsList.length}
+          activeItemsCount={activeItems.length}
+        />
+      );
+      todosList = (
+        <TodosList
+          itemsList={itemsList}
+          toggleItem={this.toggleItem}
+          deleteItem={this.deleteItem}
+          editItem={this.editItem}
+          activeFilter={activeFilter}
+          toggleAllItems={this.toggleAllItems}
+        />
+      );
+    }
 
     return (
       <Fragment>

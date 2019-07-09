@@ -1,15 +1,16 @@
 import React, { Component } from "react";
 import styles from "./TodosList.module.css";
 import Item from "../Item/Item";
+import PropType from "prop-types";
 
 export default class TodosList extends Component {
   handleToggleAll = event => {
     this.props.toggleAllItems(event.target.checked);
   };
 
-  getItemList = filter => {
-    const { itemsList } = this.props;
-    switch (filter) {
+  getItemList = () => {
+    const { itemsList, activeFilter } = this.props;
+    switch (activeFilter) {
       case "all": {
         return itemsList;
       }
@@ -19,41 +20,43 @@ export default class TodosList extends Component {
       case "active": {
         return itemsList.filter(value => !value.completed);
       }
-      default: return itemsList;
+      default:
+        return itemsList;
     }
   };
 
   render() {
-    const {
-      itemsList,
-      activeFilter,
-      toggleItem,
-      editItem,
-      deleteItem
-    } = this.props;
+    const { itemsList, toggleItem, editItem, deleteItem } = this.props;
     const listCompleted = itemsList.filter(value => value.completed);
-    let listView = this.getItemList(activeFilter);
-    let styleButtonToggleAll = styles.list__toggle_all;
-    listView = listView.map(value => (
-      <Item
-        data={value}
-        key={value.id}
-        toggleItem={toggleItem}
-        deleteItem={deleteItem}
-        editItem={editItem}
-      />
-    ));
+    const itemsToShow = this.getItemList();
 
     return (
       <div className={styles.list}>
         <input
           type="checkbox"
-          className={styleButtonToggleAll}
+          className={styles.buttonToggleAll}
           checked={itemsList.length === listCompleted.length}
           onChange={this.handleToggleAll}
         />
-        <ul className={styles.list}>{listView}</ul>
+        <ul>
+          {itemsToShow.map(value => (
+            <Item
+              value={value}
+              key={value.id}
+              toggleItem={toggleItem}
+              deleteItem={deleteItem}
+              editItem={editItem}
+            />
+          ))}
+        </ul>
       </div>
     );
   }
 }
+
+TodosList.propTypes = {
+  itemsList: PropType.array,
+  toggleItem: PropType.func,
+  editItem: PropType.func,
+  deleteItem: PropType.func
+};

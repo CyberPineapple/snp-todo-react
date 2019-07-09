@@ -1,5 +1,8 @@
 import React, { Component, Fragment } from "react";
 import header from "./Header.module.css";
+import PropType from "prop-types";
+import Ghost from "./Ghost/";
+import Pacman from "./Pacman/";
 
 export default class Header extends Component {
   state = {
@@ -35,82 +38,19 @@ export default class Header extends Component {
   render() {
     const { isChangedInput } = this.props;
     const { textOfTheNewItem } = this.state;
-    let styleInputText = header.header__input;
-    if (isChangedInput) {
-      styleInputText = header.header__input_primal;
-    }
 
     return (
       <Fragment>
         <div className={header.logo}>
-          <div className={header.pacman}>
-            <div className={header.pacman__item1} />
-            <div className={header.pacman__item2} />
-          </div>
+          <Pacman />
           <div className={header.ghosts}>
-            <div className={header.ghost}>
-              <div
-                className={header.ghost__item1 + " " + header.ghost__color_red}
-              >
-                <div className={header.eyes} />
-                <div className={header.eyes} />
-              </div>
-              <div
-                className={header.ghost__item2 + " " + header.ghost__color_red}
-              />
-              <div
-                className={header.ghost__item3 + " " + header.ghost__color_red}
-              />
-              <div
-                className={header.ghost__item4 + " " + header.ghost__color_red}
-              />
-            </div>
-            <div className={header.ghost}>
-              <div
-                className={header.ghost__item1 + " " + header.ghost__color_blue}
-              >
-                <div className={header.eyes} />
-                <div className={header.eyes} />
-              </div>
-              <div
-                className={header.ghost__item2 + " " + header.ghost__color_blue}
-              />
-              <div
-                className={header.ghost__item3 + " " + header.ghost__color_blue}
-              />
-              <div
-                className={header.ghost__item4 + " " + header.ghost__color_blue}
-              />
-            </div>
-            <div className={header.ghost}>
-              <div
-                className={
-                  header.ghost__item1 + " " + header.ghost__color_orange
-                }
-              >
-                <div className={header.eyes} />
-                <div className={header.eyes} />
-              </div>
-              <div
-                className={
-                  header.ghost__item2 + " " + header.ghost__color_orange
-                }
-              />
-              <div
-                className={
-                  header.ghost__item3 + " " + header.ghost__color_orange
-                }
-              />
-              <div
-                className={
-                  header.ghost__item4 + " " + header.ghost__color_orange
-                }
-              />
-            </div>
+            <Ghost color="red" />
+            <Ghost color="orange" />
+            <Ghost color="blue" />
           </div>
         </div>
         <input
-          className={styleInputText}
+          className={isChangedInput ? header.primalInput : header.input}
           type="text"
           autoFocus
           placeholder="What needs to be done?"
@@ -122,3 +62,7 @@ export default class Header extends Component {
     );
   }
 }
+
+Header.propTypes = {
+  isChangedInput: PropType.bool
+};

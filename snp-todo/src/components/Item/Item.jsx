@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropType from "prop-types";
 import styles from "./Item.module.css";
 
 export default class Item extends Component {
@@ -23,7 +24,7 @@ export default class Item extends Component {
   handleDoubleClick = () => {
     this.setState({
       isEditing: true,
-      text: this.props.data.text
+      text: this.props.value.text
     });
   };
 
@@ -37,7 +38,7 @@ export default class Item extends Component {
     const {
       editItem,
       deleteItem,
-      data: { id }
+      value: { id }
     } = this.props;
     const { text } = this.state;
     if (text !== "" && text[0] !== " ") {
@@ -55,7 +56,7 @@ export default class Item extends Component {
       const {
         editItem,
         deleteItem,
-        data: { id }
+        value: { id }
       } = this.props;
       const { text } = this.state;
       if (text !== "" && text[0] !== " ") {
@@ -71,7 +72,7 @@ export default class Item extends Component {
 
   handleCheckboxChange = () => {
     const {
-      data: { id },
+      value: { id },
       toggleItem
     } = this.props;
     toggleItem(id);
@@ -79,54 +80,63 @@ export default class Item extends Component {
 
   handleDeleteButtonClick = () => {
     const {
-      data: { id },
+      value: { id },
       deleteItem
     } = this.props;
     deleteItem(id);
   };
 
   render() {
-    const { data } = this.props;
+    const { value } = this.props;
     const { isEditing, text, isVisibleDeleteButton } = this.state;
-    const styleDeleteButton = isVisibleDeleteButton
-      ? styles.item__button_delete_view
-      : styles.item__button_delete;
-    const styleText = data.completed
-      ? styles.item__text_completed
-      : styles.item__text;
-    const editBlock = isEditing ? (
-      <input
-        type="text"
-        className={styles.item__edit}
-        autoFocus
-        value={text}
-        onBlur={this.handleInputFieldBlur}
-        onChange={this.handleInputFieldChange}
-        onKeyPress={this.handleInputFieldKeyPress}
-      />
-    ) : null;
 
     return (
       <li
-        className={styles.item}
+        className={styles.block}
         onMouseOver={this.handleMouseOver}
-        onMouseOut={this.handleMouseOut}
+        onMouseLeave={this.handleMouseOut}
       >
         <input
           type="checkbox"
-          className={styles.item__checkbox}
-          checked={data.completed}
+          className={styles.checkbox}
+          checked={value.completed}
           onChange={this.handleCheckboxChange}
         />
-        <label className={styleText} onDoubleClick={this.handleDoubleClick}>
-          {data.text}
+        <label
+          className={value.completed ? styles.textCompleted : styles.text}
+          onDoubleClick={this.handleDoubleClick}
+        >
+          {value.text}
         </label>
-        <div
-          className={styleDeleteButton}
-          onClick={this.handleDeleteButtonClick}
-        />
-        {editBlock}
+        {isVisibleDeleteButton && (
+          <button
+            className={styles.buttonDelete}
+            onClick={this.handleDeleteButtonClick}
+          />
+        )}
+        {isEditing && (
+          <input
+            type="text"
+            className={styles.edit}
+            autoFocus
+            value={text}
+            onBlur={this.handleInputFieldBlur}
+            onChange={this.handleInputFieldChange}
+            onKeyPress={this.handleInputFieldKeyPress}
+          />
+        )}
       </li>
     );
   }
 }
+
+Item.propTypes = {
+  value: PropType.shape({
+    text: PropType.string,
+    completed: PropType.bool,
+    id: PropType.number
+  }),
+  toggleItem: PropType.func,
+  deleteItem: PropType.func,
+  editItem: PropType.func
+};

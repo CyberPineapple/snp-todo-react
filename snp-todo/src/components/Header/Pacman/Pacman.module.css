@@ -1,0 +1,72 @@
+.pacman {
+  height: 100px;
+  width: 100px;
+  position: relative;
+}
+
+.item1 {
+  position: absolute;
+  height: 50%;
+  width: 100%;
+  overflow: hidden;
+  animation: pacman1 1s infinite alternate-reverse;
+  transform-origin: center bottom;
+}
+
+.item1::before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 200%;
+  background-color: yellow;
+  border-radius: 50% 50% 0 0;
+}
+
+.item1::after {
+  position: absolute;
+  content: "";
+  left: 70%;
+  top: 50%;
+  width: 10%;
+  height: 20%;
+  background-color: black;
+  border-radius: 50%;
+}
+
+.item2 {
+  position: absolute;
+  height: 50%;
+  width: 100%;
+  overflow: hidden;
+  animation: pacman2 1s infinite alternate-reverse;
+  transform-origin: center bottom;
+}
+
+.item2::before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 200%;
+  background-color: yellow;
+  border-radius: 50% 50% 0 0;
+}
+
+@keyframes pacman1 {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(-45deg);
+  }
+}
+
+@keyframes pacman2 {
+  from {
+    transform: rotate(180deg);
+  }
+
+  to {
+    transform: rotate(225deg);
+  }
+}

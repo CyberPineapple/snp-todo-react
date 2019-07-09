@@ -1,4 +1,4 @@
-.radio__button {
+.button {
   color: red;
   padding: 10px;
   cursor: pointer;
@@ -6,15 +6,15 @@
   transition: opacity 0.1s;
 }
 
-.radio__button:hover {
+.button:hover {
   opacity: 1;
 }
 
-.radio{
+.radio {
   display: none;
 }
 
-.radio:checked + .radio__button{
+.radio:checked + .button {
   text-decoration: underline;
   text-decoration-color: white;
   opacity: 1;
