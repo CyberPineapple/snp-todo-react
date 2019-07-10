@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import PropType from "prop-types";
+import PropTypes from "prop-types";
 import styles from "./Item.module.css";
 
 export default class Item extends Component {
@@ -131,12 +131,12 @@ export default class Item extends Component {
 }
 
 Item.propTypes = {
-  value: PropType.shape({
-    text: PropType.string,
-    completed: PropType.bool,
-    id: PropType.number
+  value: PropTypes.shape({
+    text: PropTypes.string,
+    completed: PropTypes.bool,
+    id: PropTypes.number
   }),
-  toggleItem: PropType.func,
-  deleteItem: PropType.func,
-  editItem: PropType.func
+  toggleItem: PropTypes.func,
+  deleteItem: PropTypes.func,
+  editItem: PropTypes.func
 };

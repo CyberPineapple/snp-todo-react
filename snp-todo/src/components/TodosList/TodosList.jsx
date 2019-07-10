@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styles from "./TodosList.module.css";
 import Item from "../Item/Item";
-import PropType from "prop-types";
+import PropTypes from "prop-types";
 
 export default class TodosList extends Component {
   handleToggleAll = event => {
@@ -55,8 +55,8 @@ export default class TodosList extends Component {
 }
 
 TodosList.propTypes = {
-  itemsList: PropType.array,
-  toggleItem: PropType.func,
-  editItem: PropType.func,
-  deleteItem: PropType.func
+  itemsList: PropTypes.array,
+  toggleItem: PropTypes.func,
+  editItem: PropTypes.func,
+  deleteItem: PropTypes.func
 };

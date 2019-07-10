@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import styles from "./FooterRadioButton.module.css";
-import PropType from "prop-types";
+import PropTypes from "prop-types";
 
 const FooterRadioButton = ({ value, onChangeActiveFilter, isChecked }) => {
   return (
@@ -21,9 +21,9 @@ const FooterRadioButton = ({ value, onChangeActiveFilter, isChecked }) => {
 };
 
 FooterRadioButton.propTypes = {
-  value: PropType.string,
-  onChangeActiveFilter: PropType.func,
-  isChecked: PropType.bool
+  value: PropTypes.string,
+  onChangeActiveFilter: PropTypes.func,
+  isChecked: PropTypes.bool
 };
 
 export default FooterRadioButton;

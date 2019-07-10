@@ -87,28 +87,6 @@ export default class App extends Component {
   render() {
     const { itemsList, activeFilter } = this.state;
     const activeItems = itemsList.filter(value => !value.completed);
-    let footer, todosList;
-    if (itemsList.length) {
-      footer = (
-        <Footer
-          setActiveFilter={this.setActiveFilter}
-          deleteCompletedItem={this.deleteCompletedItem}
-          activeFilter={activeFilter}
-          isVisibleDeleteButton={activeItems.length !== itemsList.length}
-          activeItemsCount={activeItems.length}
-        />
-      );
-      todosList = (
-        <TodosList
-          itemsList={itemsList}
-          toggleItem={this.toggleItem}
-          deleteItem={this.deleteItem}
-          editItem={this.editItem}
-          activeFilter={activeFilter}
-          toggleAllItems={this.toggleAllItems}
-        />
-      );
-    }
 
     return (
       <Fragment>
@@ -116,8 +94,25 @@ export default class App extends Component {
           isChangedInput={!itemsList.length}
           addNewItem={this.addNewItem}
         />
-        {todosList}
-        {footer}
+        {itemsList.length && (
+          <Fragment>
+            <TodosList
+              itemsList={itemsList}
+              toggleItem={this.toggleItem}
+              deleteItem={this.deleteItem}
+              editItem={this.editItem}
+              activeFilter={activeFilter}
+              toggleAllItems={this.toggleAllItems}
+            />
+            <Footer
+              setActiveFilter={this.setActiveFilter}
+              deleteCompletedItem={this.deleteCompletedItem}
+              activeFilter={activeFilter}
+              isVisibleDeleteButton={activeItems.length !== itemsList.length}
+              activeItemsCount={activeItems.length}
+            />
+          </Fragment>
+        )}
       </Fragment>
     );
   }

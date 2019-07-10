@@ -1,20 +1,17 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import styles from "./Footer.module.css";
 import FooterRadioButton from "./FooterRadioButton/";
 import filters from "../../constants/filters";
-import PropType from "prop-types";
+import PropTypes from "prop-types";
 
-export default class Footer extends Component {
-  handleButtonClearClick = () => {
-    this.props.deleteCompletedItem();
-  };
-
+export default class Footer extends PureComponent {
   render() {
     const {
       activeFilter,
       setActiveFilter,
       isVisibleDeleteButton,
-      activeItemsCount
+      activeItemsCount,
+      deleteCompletedItem
     } = this.props;
 
     return (
@@ -29,10 +26,7 @@ export default class Footer extends Component {
           />
         ))}
         {isVisibleDeleteButton && (
-          <button
-            className={styles.deleteButton}
-            onClick={this.handleButtonClearClick}
-          >
+          <button className={styles.deleteButton} onClick={deleteCompletedItem}>
             delete completed
           </button>
         )}
@@ -42,8 +36,8 @@ export default class Footer extends Component {
 }
 
 Footer.propTypes = {
-  activeFilter: PropType.string,
-  setActiveFilter: PropType.func,
-  isVisibleDeleteButton: PropType.bool,
-  activeItemsCount: PropType.number
+  activeFilter: PropTypes.string,
+  setActiveFilter: PropTypes.func,
+  isVisibleDeleteButton: PropTypes.bool,
+  activeItemsCount: PropTypes.number
 };

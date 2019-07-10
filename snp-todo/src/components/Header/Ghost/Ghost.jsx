@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./Ghost.module.css";
-import PropType from "prop-types";
+import PropTypes from "prop-types";
 
 const Ghost = ({ color }) => {
   let ghostColor;
@@ -36,6 +36,6 @@ const Ghost = ({ color }) => {
 };
 
 Ghost.propTypes = {
-  color: PropType.oneOf(["red", "orange", "blue"])
+  color: PropTypes.oneOf(["red", "orange", "blue"])
 };
 export default Ghost;
