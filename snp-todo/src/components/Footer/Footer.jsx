@@ -3,30 +3,33 @@ import styles from "./Footer.module.css";
 import FooterRadioButton from "./FooterRadioButton/";
 import filters from "../../constants/filters";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { deleteCompletedItems } from "../../actions/";
 
-export default class Footer extends PureComponent {
+class Footer extends PureComponent {
   render() {
     const {
-      activeFilter,
-      setActiveFilter,
+      isVisibleComponent,
       isVisibleDeleteButton,
       activeItemsCount,
-      deleteCompletedItem
+      deleteCompletedItems
     } = this.props;
+
+    if (isVisibleComponent) {
+      return null;
+    }
 
     return (
       <div className={styles.block}>
         <p className={styles.counter}>items left {activeItemsCount}</p>
         {filters.map(value => (
-          <FooterRadioButton
-            key={value}
-            value={value}
-            isChecked={activeFilter === value}
-            onChangeActiveFilter={setActiveFilter}
-          />
+          <FooterRadioButton key={value} value={value} />
         ))}
         {isVisibleDeleteButton && (
-          <button className={styles.deleteButton} onClick={deleteCompletedItem}>
+          <button
+            className={styles.deleteButton}
+            onClick={deleteCompletedItems}
+          >
             delete completed
           </button>
         )}
@@ -36,8 +39,21 @@ export default class Footer extends PureComponent {
 }
 
 Footer.propTypes = {
-  activeFilter: PropTypes.string,
-  setActiveFilter: PropTypes.func,
+  isVisibleComponent: PropTypes.bool,
+  deleteCompletedItems: PropTypes.func,
   isVisibleDeleteButton: PropTypes.bool,
   activeItemsCount: PropTypes.number
 };
+
+export default connect(
+  state => {
+    const { itemsList } = state;
+    const activeItems = itemsList.filter(value => !value.completed);
+    return {
+      isVisibleComponent: !itemsList.length,
+      activeItemsCount: activeItems.length,
+      isVisibleDeleteButton: activeItems.length !== itemsList.length
+    };
+  },
+  { deleteCompletedItems }
+)(Footer);

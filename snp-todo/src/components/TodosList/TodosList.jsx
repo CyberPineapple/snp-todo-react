@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import styles from "./TodosList.module.css";
 import Item from "../Item/Item";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { toggleAllItems } from "../../actions/";
 
-export default class TodosList extends Component {
+class TodosList extends Component {
   handleToggleAll = event => {
     this.props.toggleAllItems(event.target.checked);
   };
@@ -26,9 +28,12 @@ export default class TodosList extends Component {
   };
 
   render() {
-    const { itemsList, toggleItem, editItem, deleteItem } = this.props;
+    const { itemsList, isVisibleComponent } = this.props;
     const listCompleted = itemsList.filter(value => value.completed);
     const itemsToShow = this.getItemList();
+    if (isVisibleComponent) {
+      return null;
+    }
 
     return (
       <div className={styles.list}>
@@ -40,13 +45,7 @@ export default class TodosList extends Component {
         />
         <ul>
           {itemsToShow.map(value => (
-            <Item
-              value={value}
-              key={value.id}
-              toggleItem={toggleItem}
-              deleteItem={deleteItem}
-              editItem={editItem}
-            />
+            <Item value={value} key={value.id} />
           ))}
         </ul>
       </div>
@@ -55,8 +54,18 @@ export default class TodosList extends Component {
 }
 
 TodosList.propTypes = {
+  isVisibleComponent: PropTypes.bool,
   itemsList: PropTypes.array,
   toggleItem: PropTypes.func,
   editItem: PropTypes.func,
   deleteItem: PropTypes.func
 };
+
+export default connect(
+  state => ({
+    itemsList: state.itemsList,
+    activeFilter: state.activeFilter,
+    isVisibleComponent: !state.itemsList.length
+  }),
+  { toggleAllItems }
+)(TodosList);

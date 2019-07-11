@@ -1,17 +1,19 @@
 import React, { Component, Fragment } from "react";
 import header from "./Header.module.css";
-import PropType from "prop-types";
+import PropTypes from "prop-types";
 import Ghost from "./Ghost/";
 import Pacman from "./Pacman/";
+import { connect } from "react-redux";
+import { addNewItem } from "../../actions/";
 
-export default class Header extends Component {
+class Header extends Component {
   state = {
     textOfTheNewItem: ""
   };
 
-  handleChange = event => {
+  handleChange = ({ target: { value } }) => {
     this.setState({
-      textOfTheNewItem: event.target.value
+      textOfTheNewItem: value
     });
   };
 
@@ -64,5 +66,13 @@ export default class Header extends Component {
 }
 
 Header.propTypes = {
-  isChangedInput: PropType.bool
+  isChangedInput: PropTypes.bool,
+  addNewItem: PropTypes.func
 };
+
+export default connect(
+  state => ({
+    isChangedInput: !state.itemsList.length
+  }),
+  { addNewItem }
+)(Header);

@@ -1,8 +1,10 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import styles from "./Item.module.css";
+import { connect } from "react-redux";
+import { deleteItem, toggleItem, editItem } from "../../actions/";
 
-export default class Item extends Component {
+class Item extends PureComponent {
   state = {
     isVisibleDeleteButton: false,
     isEditing: false,
@@ -87,7 +89,7 @@ export default class Item extends Component {
   };
 
   render() {
-    const { value } = this.props;
+    const { value, isChecked } = this.props;
     const { isEditing, text, isVisibleDeleteButton } = this.state;
 
     return (
@@ -99,11 +101,11 @@ export default class Item extends Component {
         <input
           type="checkbox"
           className={styles.checkbox}
-          checked={value.completed}
+          checked={isChecked}
           onChange={this.handleCheckboxChange}
         />
         <label
-          className={value.completed ? styles.textCompleted : styles.text}
+          className={isChecked ? styles.textCompleted : styles.text}
           onDoubleClick={this.handleDoubleClick}
         >
           {value.text}
@@ -138,5 +140,13 @@ Item.propTypes = {
   }),
   toggleItem: PropTypes.func,
   deleteItem: PropTypes.func,
-  editItem: PropTypes.func
+  editItem: PropTypes.func,
+  isChecked: PropTypes.bool
 };
+
+export default connect(
+  (state, ownProps) => ({
+    isChecked: ownProps.value.completed
+  }),
+  { deleteItem, toggleItem, editItem }
+)(Item);

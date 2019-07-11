@@ -1,15 +1,17 @@
 import React, { Fragment } from "react";
 import styles from "./FooterRadioButton.module.css";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { setActiveFilter } from "../../../actions/";
 
-const FooterRadioButton = ({ value, onChangeActiveFilter, isChecked }) => {
+const FooterRadioButton = ({ value, setActiveFilter, isChecked }) => {
   return (
     <Fragment>
       <input
         type="radio"
         id={value}
         value={value}
-        onChange={onChangeActiveFilter}
+        onChange={setActiveFilter}
         checked={isChecked}
         className={styles.radio}
       />
@@ -22,8 +24,13 @@ const FooterRadioButton = ({ value, onChangeActiveFilter, isChecked }) => {
 
 FooterRadioButton.propTypes = {
   value: PropTypes.string,
-  onChangeActiveFilter: PropTypes.func,
+  setActiveFilter: PropTypes.func,
   isChecked: PropTypes.bool
 };
 
-export default FooterRadioButton;
+export default connect(
+  (state, ownProps) => ({
+    isChecked: state.activeFilter === ownProps.value
+  }),
+  { setActiveFilter }
+)(FooterRadioButton);
