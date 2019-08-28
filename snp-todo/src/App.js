@@ -1,11 +1,4 @@
 import React, { Component, Fragment } from "react";
-<<<<<<< HEAD
-import Header from "./components/Header/";
-import TodosList from "./components/TodosList/";
-import Footer from "./components/Footer/";
-
-export default class App extends Component {
-=======
 import Header from "./components/Header/Header";
 import TodosList from "./components/TodosList/TodosList";
 import Footer from "./components/Footer/Footer";
@@ -91,7 +84,6 @@ export default class App extends Component {
     });
   };
 
->>>>>>> parent of 3a8c080... add redux
   render() {
     const { itemsList, activeFilter } = this.state;
     const activeItems = itemsList.filter(value => !value.completed);

@@ -26,13 +26,4 @@ FooterRadioButton.propTypes = {
   isChecked: PropTypes.bool
 };
 
-<<<<<<< HEAD
-export default connect(
-  (state, ownProps) => ({
-    isChecked: state.activeFilter === ownProps.value
-  }),
-  { onChangeActiveFilter: setActiveFilter }
-)(FooterRadioButton);
-=======
 export default FooterRadioButton;
->>>>>>> parent of 3a8c080... add redux
