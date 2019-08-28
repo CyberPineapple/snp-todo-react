@@ -116,8 +116,4 @@ export default class App extends Component {
       </Fragment>
     );
   }
-<<<<<<< HEAD
-};
-=======
 }
->>>>>>> parent of 3a8c080... add redux
